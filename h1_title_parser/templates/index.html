@@ -5,6 +5,16 @@
     <title>Tasks and queue</title>
 </head>
 <body>
-HELLO THERE
+    <textarea>
+        {% for task in tasks %}
+        {{ task }}
+        {% endfor %}
+    </textarea>
+    <hr>
+    <textarea>
+        {% for report in reports %}
+        {{ report }}
+        {% endfor %}
+    </textarea>
 </body>
 </html>

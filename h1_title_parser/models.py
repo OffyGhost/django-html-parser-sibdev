@@ -27,11 +27,12 @@ class UserTask(models.Model):
         ('0', 'Не запущено'),  ('1', 'Выполняется'), ('2', 'Завершено'), ('3', 'Завершено с ошибкой')
     )
     date = models.DateTimeField(blank=False, default=timezone.now, verbose_name='Время создания')
-    time_shift = models.DateTimeField(blank=True, verbose_name='Смещение задания по времени')
+    time_shift = models.DateTimeField(null=True, blank=True, verbose_name='Смещение задания по времени')
     completed = models.BooleanField(blank=False, verbose_name='Завершено')
     status = models.CharField(max_length=12, choices=task_status_enum, default='0')
     url = models.URLField(blank=False, verbose_name='Корневая ссылка задания')
-    report = models.ForeignKey(blank=True, to=ReportTask, on_delete=models.CASCADE, verbose_name='Отчет по заданию')
+    report = models.ForeignKey(null=True, blank=True, to=ReportTask,
+                               on_delete=models.CASCADE, verbose_name='Отчет по заданию')
 
     def __str__(self):
         if self.time_shift:
