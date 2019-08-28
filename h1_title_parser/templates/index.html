@@ -1,10 +1,49 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Tasks and queue</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+    <script type='text/javascript'>
+    (function() {
+        $(document).ready(pageInit);
+
+        function pageInit(){
+            $('#btnHiThere').live('click', updatePage);
+
+        }
+
+        function updatePage(){
+                $.get( "", function( data ) {
+                  $( "body" ).html( data.body );
+            }
+        });
+
+    })();
+    </script>
 </head>
+
 <body>
-HELLO THERE
+<div id="hd">
+    <h1>Парсер H1 & title тэгов</h1>
+    <button id="btnHiThere">Update</button>
+</div>
+    <div class ='document'>
+        <div id="yui-main">
+            <div class ='yui-b'>
+                {% for task in tasks %}
+                <p>{{ task }}</p>
+                {% endfor %}
+            <hr>
+
+                    {% for report in reports %}
+                        <p>{{ report }}/<p>
+                    {% endfor %}
+                </div>
+            </div>
+
+    </div>
 </body>
 </html>
