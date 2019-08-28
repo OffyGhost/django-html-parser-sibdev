@@ -47,17 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'h1_title_parser',
-    # not sure about illegality
-    'background_task',
-    'channels'
-]
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'asgiref.inmemory.ChannelLayer',
-        'ROUTING': 'html_parser_sibdev.routing.channel_routing',
-    },
-}
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -138,3 +129,6 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [BASE_DIR+r'\html_parser_sibdev\static']
+
