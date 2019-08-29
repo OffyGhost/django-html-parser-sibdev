@@ -1,4 +1,4 @@
-# django-html-parser-sibdev
+# django-html-parser-sibdev [test task]
 This application will parse some html parameters
 Tested on Python 3.7.4
 
