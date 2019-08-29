@@ -1,78 +1,87 @@
-from django.core.management.base import BaseCommand
-from django.core.exceptions import ObjectDoesNotExist
-from h1_title_parser.models import UserTask, ReportTask
-from threading import Thread
 import re
+import os
+import sys
 import time
+import socket
 import urllib.request
 import urllib.error
+from queue import Queue
 from django.utils import timezone
-
-""" allows to use python2 and python3 """
-try:
-    from urllib.request import urlopen, URLError
-    from queue import Queue
-except ImportError:
-    from urllib2 import urlopen, URLError
-    from Queue import Queue
+from threading import Thread
+from django.core.management.base import BaseCommand
+from h1_title_parser.models import UserTask, ReportTask
 
 
-global_timeout = 1
+global_timeout = 2
+
+
+def web(port):
+    # worst method ever
+    os.system('python manage.py runserver 0.0.0.0:{} --insecure'.format(port))
 
 
 class Command(BaseCommand):
     help = 'Запустить парсер отдельной командой'
 
+    def add_arguments(self, parser):
+        # Positional arguments
+        parser.add_argument('port', nargs='+', type=int)
+
+        # Named (optional) arguments
+        parser.add_argument(
+            '--port',
+            action='store_true',
+            dest='delete',
+            help='Add port to run django app',
+        )
+
     def handle(self, *args, **options):
-        parser_queue = Queue()
-        html_parser = Worker(parser_queue)
-        thread = Thread(target=html_parser.run)
-        thread.start()
 
-        while True:
-            # Запустить "не запушенные" задания и по времени
-            now = timezone.now()
-            task_pool = UserTask.objects.filter(status='0', date__lte=now)
-            for task in task_pool:
-                parser_queue.put(task)
-            time.sleep(global_timeout)
+        port = options['port'][0]
+        parser_thread = Thread(target=web, args=(port,))
+        try:
+            parser_thread.start()  # close this
+
+            work_queue = Queue()
+            html_parser = Worker(work_queue)
+            html_parser.start()  # close this
+
+            # Другим потоком накидываю задания в очередь
+            while True:
+
+                now = timezone.now()
+                for task in UserTask.objects.filter(status='0', date__lte=now):
+                    print('cant stop')
+                    work_queue.put(task)
+
+                time.sleep(global_timeout * 3)
+
+        except KeyboardInterrupt:
+            os._exit(0)
 
 
-class Worker:
-    worker_have_task = True
-    threads = []
+class Worker(Thread):
 
     def __init__(self, work_queue):
         super().__init__()
         self.work_queue = work_queue
-        self.url_parse_timeout = global_timeout  # 5 seconds for timeout
-
-    def process(self, task):
-        print("Processing {}".format(task))
-        task.status = 1
-        task.save()
-
-        thread = Thread(target=self.parse_url, args=(task,))
-        thread.start()
-        self.threads.append(thread)
-
-        for tread in self.threads:
-            tread.join()
-            time.sleep(self.url_parse_timeout)
-
-        html_status, encoding, h1, title = self.parse_url(task)
-        # finally saving report
-        save_user_task(task, html_status, encoding, h1, title)
+        self.url_parse_timeout = global_timeout
 
     def run(self):
-        while self.worker_have_task:
+        while True:
             try:
                 task = self.work_queue.get()
-                self.process(task)
+                # Самая большая ошибка в том, что я не отслеживаю какой тред накрылся
+                thread = Thread(target=self.process, args=(task,))
+                thread.start()
+            finally:
+                self.work_queue.task_done()
 
-            except ObjectDoesNotExist:
-                self.worker_have_task = False
-                print("Пул задач пуст")
+    def process(self, task):
+        print("Processing:  {}".format(task))
+        task.status = 1
+        task.save()
+        self.parse_url(task)
 
     def parse_url(self, task):
         encoding = None
@@ -96,11 +105,16 @@ class Worker:
             except IndexError:
                 pass
 
-        except urllib.error.HTTPError as error:
-            html_status = error.code
+        except (urllib.error.HTTPError, urllib.error.URLError, urllib.error.ContentTooShortError,
+                socket.timeout, socket.error) as error:
+            try:
+                html_status = error.code
+            except AttributeError:
+                html_status = "Bad request"
             task.status = 2
             task.save()
-        return html_status, encoding, h1, title
+
+        save_user_task(task, html_status, encoding, h1, title)
 
 
 def save_user_task(task, html_status, encoding, h1, title):
@@ -117,4 +131,7 @@ def save_user_task(task, html_status, encoding, h1, title):
         task.status = 2
     else:
         task.status = 3
+
+    print("Completed with status {} : {}".format(task.status, task))
+
     task.save()

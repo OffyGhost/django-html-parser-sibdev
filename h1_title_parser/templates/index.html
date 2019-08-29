@@ -5,43 +5,35 @@
     <meta charset="UTF-8">
     <title>Tasks and queue</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
-    <script type='text/javascript'>
-    (function() {
-        $(document).ready(pageInit);
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script>
+        window.onload = function() {
 
-        function pageInit(){
-            $('#btnHiThere').live('click', updatePage);
-
-        }
-
-        function updatePage(){
-                $.get( "", function( data ) {
-                  $( "body" ).html( data.body );
+            const updatePage  = () => {
+                $('.document').load('ajax .document');
             }
-        });
 
-    })();
+            window.setInterval(updatePage, 5000);
+        };
+
     </script>
 </head>
-
 <body>
+
 <div id="hd">
     <h1>Парсер H1 & title тэгов</h1>
-    <button id="btnHiThere">Update</button>
 </div>
     <div class ='document'>
         <div id="yui-main">
             <div class ='yui-b'>
                 {% for task in tasks %}
-                <p>{{ task }}</p>
+                {{ task }}<br>
                 {% endfor %}
             <hr>
-
-                    {% for report in reports %}
-                        <p>{{ report }}/<p>
-                    {% endfor %}
-                </div>
+                {% for item in reports %}
+                  {{ item }}<br>
+                {% endfor %}
+            </div>
             </div>
 
     </div>

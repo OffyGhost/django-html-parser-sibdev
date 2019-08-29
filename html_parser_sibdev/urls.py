@@ -19,5 +19,6 @@ from h1_title_parser.views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index)
+    path('', index),
+    path('ajax', index)
 ]
