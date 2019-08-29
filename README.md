@@ -4,15 +4,13 @@ Tested on Python 3.7.4
 
 1. Local Install
 
-git clone https://github.com/OffyGhost/django-html-parser-sibdev
-cd django-html-parser-sibdev
-python -m venv env
-env\Scripts\activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-python manage.py migrate h1_title_parser 0001_initial
-
-# [Create admin]
+git clone https://github.com/OffyGhost/django-html-parser-sibdev <br>
+cd django-html-parser-sibdev <br>
+python -m venv env <br>
+env\Scripts\activate <br>
+python -m pip install --upgrade pip <br>
+pip install -r requirements.txt <br>
+python manage.py migrate h1_title_parser 0001_initial <br>
 python manage.py createsuperuser
 
 2. Django Web Server & URL Parser
