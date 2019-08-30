@@ -10,7 +10,7 @@ python -m venv env
 env\Scripts\activate
 python -m pip install --upgrade pip
 pip install -r requirements.txt
-python manage.py migrate h1_title_parser 0001_initial
+python manage.py migrate
 
 # [Create admin]
 python manage.py createsuperuser

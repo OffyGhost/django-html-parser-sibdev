@@ -1,3 +1,25 @@
-@import url(reset-fonts-grids.css);
-@import url(djangodocs.css);
-@import url(homepage.css);
+.document {
+  padding: 10px;
+  align-items: center;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+}
+.scrollBox {
+  height: 450px;
+  padding-left: 10px;
+  padding: "0px 10px 0px 10px";
+  overflow-y: scroll;
+}
+.color_2 {
+  background-color: aqua;
+}
+.color_3 {
+  background-color: coral;
+}
+.color_1 {
+  background-color: yellowgreen;
+}
+
+.color_1 {
+  background-color: bisque;
+}

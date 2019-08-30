@@ -1,41 +1,32 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Tasks and queue</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script>
-        window.onload = function() {
-
-            const updatePage  = () => {
-                $('.document').load('ajax .document');
-            }
-
-            window.setInterval(updatePage, 5000);
-        };
-
-    </script>
+    <script type="text/javascript" src="{% static 'js/updatePage.js' %}"></script>
 </head>
-<body>
 
-<div id="hd">
-    <h1>Парсер H1 & title тэгов</h1>
-</div>
-    <div class ='document'>
-        <div id="yui-main">
-            <div class ='yui-b'>
+<body>
+    <div class='document'>
+        <div id='taskContainer'>
+            <div class="tasks scrollBox" id='tasks_{{tasks|length}}'>
                 {% for task in tasks %}
-                {{ task }}<br>
+                <div class="color_{{task.status}}">{{ task.format_dashboard }}</div>
                 {% endfor %}
+            </div>
             <hr>
+            <div class="reports scrollBox" id='reports_{{reports|length}}'>
                 {% for item in reports %}
-                  {{ item }}<br>
+                <div class="color_{{item.usertask.status}}">{{ item.format_dashboard }}</div>
                 {% endfor %}
             </div>
-            </div>
+        </div>
 
     </div>
 </body>
+
 </html>
