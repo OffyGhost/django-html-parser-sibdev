@@ -1,17 +1,17 @@
 # django-html-parser-sibdev [test task]
 
-This application will parse some html parameters
-Tested on Python 3.7.4
+This application will parse some html parameters<br>
+Tested on Windows 32bit Python 3.7.4
 
 1. Local Install
 
-git clone https://github.com/OffyGhost/django-html-parser-sibdev
-cd django-html-parser-sibdev
-python -m venv env
-env\Scripts\activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-python manage.py migrate
+git clone https://github.com/OffyGhost/django-html-parser-sibdev<br>
+cd django-html-parser-sibdev<br>
+python -m venv env<br>
+env\Scripts\activate<br>
+python -m pip install --upgrade pip<br>
+pip install -r requirements.txt<br>
+python manage.py migrate<br>
 
 # [Create admin]
 
