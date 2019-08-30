@@ -3,14 +3,19 @@ from django.utils import timezone
 import datetime
 
 
+# Две модели для возможного расширения функциональности
 class ReportTask(models.Model):
     date = models.DateTimeField(null=False, blank=False, verbose_name='Время запуска')
     html_status = models.CharField(null=True, max_length=4, blank=True)
-    encoding = models.CharField(null=True, max_length=4, blank=True)
-    title = models.TextField(null=True, blank=True)
-    h1 = models.TextField(null=True, blank=True)
+    encoding = models.CharField(null=True, max_length=4, blank=True, default='')
+    title = models.TextField(null=True, blank=True, default='')
+    h1 = models.TextField(null=True, blank=True, default='')
 
     def __str__(self):
+        return "Задание парсера на {}".format(self.date)
+
+    # dd.mm.yyyy HH:mm:ss
+    def format_dashboard(self):
         task = UserTask.objects.get(report=self)
 
         if self.encoding or self.title or self.h1:
@@ -32,13 +37,17 @@ class UserTask(models.Model):
     time_shift = models.PositiveIntegerField(null=True, blank=True, verbose_name='Или добавить секунды')
     status = models.CharField(max_length=12, choices=task_status_enum, default='0')
     url = models.URLField(blank=False, verbose_name='Корневая ссылка задания', unique=True)
-    report = models.ForeignKey(null=True, blank=True, to=ReportTask,
-                               on_delete=models.CASCADE, verbose_name='Отчет по заданию')
+    report = models.OneToOneField(null=True, blank=True, to=ReportTask,
+                                  on_delete=models.CASCADE, verbose_name='Отчет по заданию')
 
     def __str__(self):
+        return "{}: {}".format(self.url, self.task_status_enum[int(self.status)][1])
+
+    # invert models.CASCADE
+    # dd.mm.yyyy HH:mm:ss
+    def format_dashboard(self):
         time_for_report = self.date.__format__("%d.%m.%Y %H:%m:%S")
         return "<дата {} >: {}".format(time_for_report, self.url)
-    # dd.mm.yyyy HH:mm:ss
 
     def save(self, *args, **kwargs):
         # Вместо валидации

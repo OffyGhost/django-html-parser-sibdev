@@ -46,9 +46,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'h1_title_parser',
-
+    'h1_title_parser'
 ]
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgiref.inmemory.ChannelLayer',
+        'ROUTING': 'html_parser_sibdev.routing.channel_routing',
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

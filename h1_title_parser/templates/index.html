@@ -1,49 +1,32 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Tasks and queue</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
-    <script type='text/javascript'>
-    (function() {
-        $(document).ready(pageInit);
-
-        function pageInit(){
-            $('#btnHiThere').live('click', updatePage);
-
-        }
-
-        function updatePage(){
-                $.get( "", function( data ) {
-                  $( "body" ).html( data.body );
-            }
-        });
-
-    })();
-    </script>
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/updatePage.js' %}"></script>
 </head>
 
 <body>
-<div id="hd">
-    <h1>Парсер H1 & title тэгов</h1>
-    <button id="btnHiThere">Update</button>
-</div>
-    <div class ='document'>
-        <div id="yui-main">
-            <div class ='yui-b'>
+    <div class='document'>
+        <div id='taskContainer'>
+            <div class="tasks scrollBox" id='tasks_{{tasks|length}}'>
                 {% for task in tasks %}
-                <p>{{ task }}</p>
+                <div class="color_{{task.status}}">{{ task.format_dashboard }}</div>
                 {% endfor %}
-            <hr>
-
-                    {% for report in reports %}
-                        <p>{{ report }}/<p>
-                    {% endfor %}
-                </div>
             </div>
+            <hr>
+            <div class="reports scrollBox" id='reports_{{reports|length}}'>
+                {% for item in reports %}
+                <div class="color_{{item.usertask.status}}">{{ item.format_dashboard }}</div>
+                {% endfor %}
+            </div>
+        </div>
 
     </div>
 </body>
+
 </html>
