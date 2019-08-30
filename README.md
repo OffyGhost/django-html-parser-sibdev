@@ -1,4 +1,5 @@
-# django-html-parser-sibdev
+# django-html-parser-sibdev [test task]
+
 This application will parse some html parameters
 Tested on Python 3.7.4
 
@@ -13,9 +14,11 @@ pip install -r requirements.txt
 python manage.py migrate
 
 # [Create admin]
+
 python manage.py createsuperuser
 
 2. Django Web Server & URL Parser
 
 python manage.py run_parser --port 80
+
 # In fact its run 'python manage.py runserver 0.0.0.0:PORT --insecure') and parser in multithread
