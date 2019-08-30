@@ -14,6 +14,7 @@ pip install -r requirements.txt<br>
 python manage.py migrate<br>
 
 2. Run app: Django Web Server & URL Parser
+
 Create admin<br>
 python manage.py createsuperuser
 
