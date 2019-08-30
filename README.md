@@ -13,10 +13,11 @@ python -m pip install --upgrade pip<br>
 pip install -r requirements.txt<br>
 python manage.py migrate<br>
 
+2. Run app: Django Web Server & URL Parser
 Create admin<br>
 python manage.py createsuperuser
 
-2. Run app: Django Web Server & URL Parser
+
 
 python manage.py run_parser --port 80
 
