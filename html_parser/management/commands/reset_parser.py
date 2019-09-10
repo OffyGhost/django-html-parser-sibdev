@@ -1,7 +1,5 @@
 from django.core.management.base import BaseCommand
-from django.core.exceptions import ObjectDoesNotExist
-from h1_title_parser.models import UserTask, ReportTask
-import threading
+from html_parser.models import UserTask
 
 
 class Command(BaseCommand):
@@ -9,5 +7,3 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         UserTask.objects.all().update(status=0)
-        #ReportTask.objects.all().delete()
-

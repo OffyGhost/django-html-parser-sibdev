@@ -1,7 +1,7 @@
 import json
-from h1_title_parser.models import UserTask, ReportTask
+from html_parser.models import UserTask
 
-STATE = {"value": "{},{}".format(UserTask.objects.all().count(), ReportTask.objects.all().count())}
+STATE = {"value": f"{UserTask.objects.all().count()},{UserTask.objects.all().count()}"}
 
 
 # convert objects count to json
@@ -18,7 +18,7 @@ async def check_updates(websocket, path):
             data = json.loads(message)
             if data["action"] == "check":
 
-                STATE["value"] = "{},{}".format(UserTask.objects.all().count(), ReportTask.objects.all().count())
+                STATE["value"] = f"{UserTask.objects.all().count()},{UserTask.objects.all().count()}"
                 await websocket.send(state_event())
             else:
                 pass

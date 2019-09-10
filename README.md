@@ -12,10 +12,13 @@ env\Scripts\activate<br>
 python -m pip install --upgrade pip<br>
 pip install -r requirements.txt<br>
 python manage.py migrate<br>
-python manage.py createsuperuser
+
+# [Create admin]
+
+python manage.py createsuperuser<br>
 
 2. Run app: Django Web Server & URL Parser
 
-python manage.py run_parser --port 80
+python manage.py run_parser --port 80<br>
 
 # In fact its run 'python manage.py runserver 0.0.0.0:PORT --insecure') and parser in multithread
