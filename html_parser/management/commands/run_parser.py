@@ -5,10 +5,10 @@ import websockets
 from queue import Queue
 from django.utils import timezone
 from django.core.management.base import BaseCommand
-from h1_title_parser.websocket import *
-from h1_title_parser.Worker import *
-
-global_timeout = 2
+from html_parser.websocket import check_updates
+from html_parser.worker import Worker
+from html_parser.models import UserTask
+from threading import Thread
 
 
 def web(port):
@@ -39,6 +39,7 @@ class Command(BaseCommand):
 
         # run websocket in second thread; able to set port via params
         start_server = websockets.serve(check_updates, "localhost", 9999)
+        global_timeout = 2
         asyncio.get_event_loop().run_until_complete(start_server)
         Thread(target=asyncio.get_event_loop().run_forever).start()
 

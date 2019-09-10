@@ -9,6 +9,7 @@
 Icon
 
 # PyCharm ignore
+.vscode/
 .idea/
 # Thumbnails
 ._*

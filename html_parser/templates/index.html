@@ -15,13 +15,13 @@
         <div id='taskContainer'>
             <div class="tasks scrollBox" id='tasks_{{tasks|length}}'>
                 {% for task in tasks %}
-                <div class="color_{{task.status}}">{{ task.format_dashboard }}</div>
+                <div class="color_{{task.status}}">{{ task.format_dashboard_top }}</div>
                 {% endfor %}
             </div>
             <hr>
             <div class="reports scrollBox" id='reports_{{reports|length}}'>
-                {% for item in reports %}
-                <div class="color_{{item.usertask.status}}">{{ item.format_dashboard }}</div>
+                {% for item in tasks %}
+                <div class="color_{{item.status}}">{{ item.format_dashboard_bottom }}</div>
                 {% endfor %}
             </div>
         </div>
