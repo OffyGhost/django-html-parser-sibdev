@@ -1,7 +1,7 @@
 # django-html-parser-sibdev [test task]
 
-This application will parse some html parameters
-Tested on Python 3.7.4
+This application will parse some html parameters<br>
+Tested on Windows 32bit Python 3.7.4
 
 1. Local Install
 
@@ -17,7 +17,7 @@ python manage.py migrate<br>
 
 python manage.py createsuperuser<br>
 
-2. Django Web Server & URL Parser
+2. Run app: Django Web Server & URL Parser
 
 python manage.py run_parser --port 80<br>
 
