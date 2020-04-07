@@ -1,4 +1,4 @@
-﻿asyncio==3.4.3
-Django==2.1.11
+asyncio==3.4.3
+Django
 pytz==2019.2
 websockets==8.0.2
